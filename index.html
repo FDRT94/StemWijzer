@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Stemwijzer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="Assets/Css/w3.css">
+    <link rel="stylesheet" href="Assets/Css/main.css">
+</head>
+
+<body>
+    <div class="w3-container w3-content">
+        <div class="w3-panel w3-card w3-white">
+            <header class="w3-container">
+                <h2>Stemwijzer</h2>
+            </header>
+            <section class="w3-container w3-section">
+                <div id="intro-container">
+                    <button id="start-btn" class="w3-button w3-black">Start</button>
+                </div>
+                <div id="question-container" class="w3-hide">
+                    <h4 style="font-weight: bold;" id="title"></h4>
+                    <h5 id="statement"></h5>
+                    <div class="">
+                        <button id="pro-btn" class="w3-button w3-black">Eens</button>
+                        <button id="ambivalent-btn" class="w3-button w3-black">Geen mening</button>
+                        <button id="contra-btn" class="w3-button w3-black">Oneens</button>
+                    </div>
+                </div>
+                <div id="result-container" class="w3-center w3-hide">
+                    <h3 id="first"></h4>
+                    <h4 id="second"></h5>
+                    <h5 id="third"></h6>
+                    <ul id="ranking" class="w3-ul"></ul>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="Assets/Js/data.js"></script>
+    <script src="Assets/Js/main.js"></script>
+</body>
+
+</html>

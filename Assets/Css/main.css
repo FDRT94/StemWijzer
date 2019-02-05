@@ -1,0 +1,9 @@
+body {
+    background: url('../Images/bg.jpg') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+main {
+    height: 50vh;
+}
