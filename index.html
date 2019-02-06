@@ -2,41 +2,55 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>Stemwijzer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="Assets/Css/w3.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="Assets/Css/bootstrap.min.css">
     <link rel="stylesheet" href="Assets/Css/main.css">
 </head>
 
 <body>
-    <div class="w3-container w3-content">
-        <div class="w3-panel w3-card w3-white">
-            <header class="w3-container">
-                <h2>Stemwijzer</h2>
-            </header>
-            <section class="w3-container w3-section">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light container mt-3 rounded-top">
+        <h2>Stemwijzer</h2>
+    </nav>
+    <main>
+        <section>
+            <div class="container bg-light pb-3 rounded-bottom">
                 <div id="intro-container">
-                    <button id="start-btn" class="w3-button w3-black">Start</button>
+                    <h3>Test uw politieke voorkeur aan de hand van <span id="intro-question-count"></span> stellingen</h3>
+                    <button id="start-btn" class="btn btn-primary float-right">Start</button>
                 </div>
-                <div id="question-container" class="w3-hide">
+                <div id="question-container" class="d-none">
                     <h4 style="font-weight: bold;" id="title"></h4>
                     <h5 id="statement"></h5>
-                    <div class="">
-                        <button id="pro-btn" class="w3-button w3-black">Eens</button>
-                        <button id="ambivalent-btn" class="w3-button w3-black">Geen mening</button>
-                        <button id="contra-btn" class="w3-button w3-black">Oneens</button>
+                    <div>
+                        <button id="pro-btn" class="btn btn-primary">Eens</button>
+                        <button id="ambivalent-btn" class="btn btn-primary">Geen mening</button>
+                        <button id="contra-btn" class="btn btn-primary">Oneens</button>
+                        <button id="skip-btn" class="btn btn-secondary float-right">Deze vraag overslaan</button>
                     </div>
                 </div>
-                <div id="result-container" class="w3-center w3-hide">
-                    <h3 id="first"></h4>
-                    <h4 id="second"></h5>
-                    <h5 id="third"></h6>
-                    <ul id="ranking" class="w3-ul"></ul>
+                <div id="result-container" class="text-center d-none">
+                    <h3 id="first"></h3>
+                    <h4 id="second"></h4>
+                    <h5 id="third"></h5>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ranking-collapse"
+                        aria-expanded="false" aria-controls="ranking-collapse">
+                        Alle resultaten tonen
+                    </button>
+                    <div class="collapse" id="ranking-collapse">
+                        <ul id="ranking" class="list-group list-group-flush"></ul>
+                    </div>
                 </div>
-            </section>
-        </div>
-    </div>
-    <script src="Assets/Js/data.js"></script>
+            </div>
+        </section>
+    </main>
+    <script src="Assets/Js/jquery.slim.min.js">
+        // Alleen voor bootstrap, wordt niet gebruikt in de logica van de stemwijzer :)
+    </script>
+    <script src="Assets/Js/bootstrap.bundle.min.js"></script>
+    <script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
     <script src="Assets/Js/main.js"></script>
 </body>
 
