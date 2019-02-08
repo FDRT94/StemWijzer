@@ -6,36 +6,46 @@
     <title>Stemwijzer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="Assets/Css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="Assets/Css/main.css">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light container mt-3 rounded-top">
         <h2>Stemwijzer</h2>
+        <a id="reset-btn" href="#" class="ml-auto d-none"><i class="fas fa-undo"></i></a>
     </nav>
     <main>
         <section>
             <div class="container bg-light pb-3 rounded-bottom">
-                <div id="intro-container">
+                <div id="intro-container" class="d-none">
                     <h3>Test uw politieke voorkeur aan de hand van <span id="intro-question-count"></span> stellingen</h3>
-                    <button id="start-btn" class="btn btn-primary float-right">Start</button>
+                    <div class="text-right">
+                        <button id="start-btn" class="btn btn-primary">Start</button>
+                    </div>
                 </div>
                 <div id="question-container" class="d-none">
-                    <h4 style="font-weight: bold;" id="title"></h4>
+                    <a id="back-btn" href="#"><i class="fas fa-arrow-left"></i></a>
+                    <h4 id="title"></h4>
                     <h5 id="statement"></h5>
                     <div>
-                        <button id="pro-btn" class="btn btn-primary">Eens</button>
-                        <button id="ambivalent-btn" class="btn btn-primary">Geen mening</button>
-                        <button id="contra-btn" class="btn btn-primary">Oneens</button>
+                        <button id="pro-btn" class="btn btn-primary mr-1">Eens</button>
+                        <button id="ambivalent-btn" class="btn btn-primary mr-1">Geen mening</button>
+                        <button id="contra-btn" class="btn btn-primary mr-1">Oneens</button>
                         <button id="skip-btn" class="btn btn-secondary float-right">Deze vraag overslaan</button>
                     </div>
                 </div>
-                <div id="result-container" class="text-center d-none">
-                    <h3 id="first"></h3>
-                    <h4 id="second"></h4>
-                    <h5 id="third"></h5>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ranking-collapse"
+                <div id="result-container" class="d-none text-center">
+                    <div>
+                        <h3 id="first"></h3>
+                        <h5 id="second" class="float-left"></h5>
+                        <h5 id="third" class="float-right"></h5>
+                        <div>&nbsp;</div>
+                    </div>
+                    <button class="btn btn-primary m-3" type="button" data-toggle="collapse" data-target="#ranking-collapse"
                         aria-expanded="false" aria-controls="ranking-collapse">
                         Alle resultaten tonen
                     </button>
@@ -46,10 +56,14 @@
             </div>
         </section>
     </main>
-    <script src="Assets/Js/jquery.slim.min.js">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous">
         // Alleen voor bootstrap, wordt niet gebruikt in de logica van de stemwijzer :)
     </script>
-    <script src="Assets/Js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
     <script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
     <script src="Assets/Js/main.js"></script>
 </body>

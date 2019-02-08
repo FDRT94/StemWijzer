@@ -4,31 +4,59 @@ const resultContainer = document.getElementById("result-container")
 const title = document.getElementById("title")
 const statement = document.getElementById("statement")
 
+const proBtn = document.getElementById("pro-btn")
+const ambivalentBtn = document.getElementById("ambivalent-btn")
+const contraBtn = document.getElementById("contra-btn")
+
+const resetBtn = document.getElementById("reset-btn")
+
 var answers = []
-var partyCount = []
 
 window.onload = function () {
     document.getElementById("intro-question-count").innerText = subjects.length
-    
-    document.getElementById("start-btn").onclick = function () {
-        answers = []
-        partyCount = []
 
+    document.getElementById("start-btn").onclick = function () {
         questionContainer.classList.toggle("d-none")
         introContainer.classList.toggle("d-none")
+        resetBtn.classList.toggle("d-none")
 
         loadQuestion(0);
     }
 
-    document.getElementById("pro-btn").onclick = function () {
+    document.getElementById("back-btn").onclick = function () {
+        var index = parseInt(questionContainer.getAttribute("data-question-index"))
+        
+        if (index == 0) {
+            questionContainer.classList.toggle("d-none")
+            introContainer.classList.toggle("d-none")
+            resetBtn.classList.toggle("d-none")
+            
+            sessionStorage.setItem("currentIndex", -1)
+        } else {
+            loadQuestion(index - 1)
+        }
+    }
+    
+    resetBtn.onclick = function () {
+        answers = []
+
+        questionContainer.classList.add("d-none")
+        resultContainer.classList.add("d-none")
+        resetBtn.classList.add("d-none")
+
+        introContainer.classList.toggle("d-none")
+    }
+
+    proBtn.onclick = function () {
         answerAndContinue("pro")
     }
-    document.getElementById("ambivalent-btn").onclick = function () {
+    ambivalentBtn.onclick = function () {
         answerAndContinue("ambivalent")
     }
-    document.getElementById("contra-btn").onclick = function () {
+    contraBtn.onclick = function () {
         answerAndContinue("contra")
     }
+
     document.getElementById("skip-btn").onclick = function () {
         var index = parseInt(questionContainer.getAttribute("data-question-index"))
 
@@ -47,21 +75,32 @@ window.onload = function () {
         if (_answers != null)
             answers = JSON.parse(_answers)
 
-        questionContainer.classList.toggle("d-none")
-        introContainer.classList.toggle("d-none")
-
-        if (index < (subjects.length)) {
-            loadQuestion(index)
+        if (index == -1) {
+            introContainer.classList.toggle("d-none")
         } else {
-            calculateResult()
+            questionContainer.classList.toggle("d-none")
+            resetBtn.classList.toggle("d-none")
+
+            if (index < (subjects.length)) {
+                loadQuestion(index)
+            } else {
+                calculateResult()
+            }
         }
+
+    } else {
+        introContainer.classList.toggle("d-none")
     }
 }
 
 function loadQuestion(index) {
     questionContainer.setAttribute("data-question-index", index)
-    title.innerText = index + 1 + ". " + subjects[index].title
+    title.innerHTML = "<b>" + (index + 1) + ". " + subjects[index].title + "</b>"
     statement.innerText = subjects[index].statement
+
+    var answerIndex = answers.findIndex(x => x.index == index)
+    setSelectedAnswer(answerIndex > -1 ? answers[answerIndex].position : "")
+
     sessionStorage.setItem("currentIndex", index)
 }
 
@@ -88,31 +127,27 @@ function answerAndContinue(position) {
 }
 
 function calculateResult() {
+    for (let i = 0; i < parties.length; i++) {
+        parties[i].count = 0
+        parties[i].percentage = 0
+    }
+
     sessionStorage.setItem("currentIndex", subjects.length + 1)
     for (let i = 0; i < answers.length; i++) {
         var answer = answers[i];
 
-        var parties = subjects[answer.index].parties.filter(x => x.position == answer.position)
+        var stances = subjects[answer.index].parties.filter(x => x.position == answer.position)
 
-        for (let j = 0; j < parties.length; j++) {
-            var party = parties[j];
+        for (let j = 0; j < stances.length; j++) {
+            let index = parties.findIndex(x => x.name == stances[j].name)
 
-            var index = partyCount.findIndex(x => x.name == party.name)
+            parties[index].count++
 
-            if (index < 0) {
-                partyCount.push({
-                    name: party.name,
-                    count: 1,
-                    percentage: Math.round((1 / subjects.length) * 100)
-                })
-            } else {
-                partyCount[index].count++;
-                partyCount[index].percentage = Math.round((partyCount[index].count / subjects.length) * 100)
-            }
+            parties[index].percentage = Math.round((parties[index].count / subjects.length) * 100)
         }
     }
 
-    partyCount.sort(function (a, b) {
+    parties.sort(function (a, b) {
         return b.count - a.count;
     });
 
@@ -125,14 +160,39 @@ function showResult() {
     const third = document.getElementById("third")
     const ranking = document.getElementById("ranking")
 
-    first.innerText = partyCount[0].name + " - " + partyCount[0].percentage + "%"
-    second.innerText = partyCount[1].name + " - " + partyCount[1].percentage + "%"
-    third.innerText = partyCount[2].name + " - " + partyCount[2].percentage + "%"
+    first.innerText = parties[0].name + " - " + parties[0].percentage + "%"
+    second.innerText = parties[1].name + " - " + parties[1].percentage + "%"
+    third.innerText = parties[2].name + " - " + parties[2].percentage + "%"
 
-    for (let i = 3; i < partyCount.length; i++) {
-        ranking.innerHTML += '<li class="list-group-item"><img src="Assets/Images/Parties/' + partyCount[i].name.replace(/\s+/g, ''); + '.png"></img>' + partyCount[i].name + ' - ' + partyCount[i].percentage + '%</li>'
+    for (let i = 3; i < parties.length; i++) {
+        ranking.innerHTML += '<li class="list-group-item bg-light"><img src="Assets/Images/Parties/' + parties[i].name.replace(/\s+/g, '') + '.png"></img>' + parties[i].name + ' - ' + parties[i].percentage + '%</li>'
     }
 
     resultContainer.classList.toggle("d-none")
     questionContainer.classList.toggle("d-none")
+}
+
+function setSelectedAnswer(position) {
+    switch (position) {
+        case "pro":
+            proBtn.classList.replace("btn-secondary", "btn-primary")
+            ambivalentBtn.classList.replace("btn-primary", "btn-secondary")
+            contraBtn.classList.replace("btn-primary", "btn-secondary")
+            break;
+        case "ambivalent":
+            proBtn.classList.replace("btn-primary", "btn-secondary")
+            ambivalentBtn.classList.replace("btn-secondary", "btn-primary")
+            contraBtn.classList.replace("btn-primary", "btn-secondary")
+            break;
+        case "contra":
+            proBtn.classList.replace("btn-primary", "btn-secondary")
+            ambivalentBtn.classList.replace("btn-primary", "btn-secondary")
+            contraBtn.classList.replace("btn-secondary", "btn-primary")
+            break;
+        default:
+            proBtn.classList.replace("btn-secondary", "btn-primary")
+            ambivalentBtn.classList.replace("btn-secondary", "btn-primary")
+            contraBtn.classList.replace("btn-secondary", "btn-primary")
+            break;
+    }
 }
