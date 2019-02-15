@@ -4,6 +4,10 @@ body {
     background-attachment: fixed;
 }
 
+main {
+    margin-bottom: 10px;
+}
+
 button {
     box-shadow: none !important;
 }
@@ -15,4 +19,8 @@ button.btn-secondary:hover {
 button.btn-secondary:hover {
     background: #0069d9;
     border-color: #0062cc;
+}
+
+#main-wrapper>div {
+    position: relative;
 }
