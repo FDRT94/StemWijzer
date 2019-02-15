@@ -57,12 +57,24 @@ window.onload = function () {
         if (index < (subjects.length - 1)) {
             loadQuestion(index + 1)
         } else {
-            calculateResult()
+                showPreferenceContainer()
         }
     }
 
     document.getElementById("to-result-btn").onclick = function () {
-        calculateResult();
+        calculateResult()
+    }
+
+    document.getElementById("show-bigparty-btn").onclick = function () {
+        showResult("big")
+    }
+
+    document.getElementById("show-secularparty-btn").onclick = function () {
+        showResult("secular")
+    }
+
+    document.getElementById("show-allparty-btn").onclick = function () {
+        showResult()
     }
 
     var currentIndex = sessionStorage.getItem("currentIndex")
@@ -73,6 +85,10 @@ window.onload = function () {
         if (_answers != null)
             answers = JSON.parse(_answers)
 
+        var _prefferedStatements = sessionStorage.getItem("preferences")
+        if (_prefferedStatements != null)
+            preferredStatements = JSON.parse(_prefferedStatements);
+        
         if (index == -1) {
             introContainer.classList.toggle("d-none")
         } else {
@@ -82,7 +98,12 @@ window.onload = function () {
             if (index < (subjects.length)) {
                 loadQuestion(index)
             } else {
-                calculateResult()
+                if (index == subjects.length + 1){
+                    showPreferenceContainer();
+                }
+                else {
+                    calculateResult()
+                }
             }
         }
 
@@ -126,10 +147,12 @@ function answerAndContinue(position) {
 
 function showPreferenceContainer() {
     showContainer("preference")
+    sessionStorage.setItem("currentIndex", subjects.length + 1)
     const preferredStatementContainer = document.getElementById("preferred-statements");
 
     preferredStatementContainer.innerHTML = "";
     preferredStatements = [];
+    sessionStorage.removeItem("preferences");
 
     for(let i = 0; i < answers.length; i++) {
         var answer = answers[i];
@@ -146,13 +169,16 @@ function showPreferenceContainer() {
                 preferredStatements.push(this.value)
             } else {
                 var index = preferredStatements.indexOf(this.value);
- 
+                
                 if (index > -1) {
                     preferredStatements.splice(index, 1);
                 }
             }
+
+            sessionStorage.setItem("preferences", JSON.stringify(preferredStatements));
         }
     }
+
 }
 
 function calculateResult() {
@@ -161,7 +187,7 @@ function calculateResult() {
         parties[i].percentage = 0
     }
 
-    sessionStorage.setItem("currentIndex", subjects.length + 1)
+    sessionStorage.setItem("currentIndex", subjects.length + 2)
     for (let i = 0; i < answers.length; i++) {
         var answer = answers[i];
 
@@ -187,19 +213,32 @@ function calculateResult() {
     showResult();
 }
 
-function showResult() {
+function showResult(type) {
+    var visibleParties = parties;
+
+    switch (type) {
+        case "big":
+            visibleParties = parties.filter(x => x.size > 0)
+            break;
+        case "secular":
+            visibleParties = parties.filter(x => x.secular == true)
+            break;
+        default:
+            visibleParties = parties;
+    }
+
     const first = document.getElementById("first")
     const second = document.getElementById("second")
     const third = document.getElementById("third")
     const ranking = document.getElementById("ranking")
     
-    first.innerText = parties[0].name + " - " + parties[0].percentage + "%"
-    second.innerText = parties[1].name + " - " + parties[1].percentage + "%"
-    third.innerText = parties[2].name + " - " + parties[2].percentage + "%"
+    first.innerText = visibleParties[0].name + " - " + visibleParties[0].percentage + "%"
+    second.innerText = visibleParties[1].name + " - " + visibleParties[1].percentage + "%"
+    third.innerText = visibleParties[2].name + " - " + visibleParties[2].percentage + "%"
     
     ranking.innerHTML = "";
-    for (let i = 3; i < parties.length; i++) {
-        ranking.innerHTML += '<li class="list-group-item bg-light"><img src="Assets/Images/Parties/' + parties[i].name.replace(/\s+/g, '') + '.png"></img>' + parties[i].name + ' - ' + parties[i].percentage + '%</li>'
+    for (let i = 3; i < visibleParties.length; i++) {
+        ranking.innerHTML += '<li class="list-group-item bg-light"><img src="Assets/Images/Parties/' + visibleParties[i].name.replace(/\s+/g, '') + '.png"></img>' + visibleParties[i].name + ' - ' + visibleParties[i].percentage + '%</li>'
     }
 
     showContainer("result")

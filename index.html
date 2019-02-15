@@ -6,8 +6,7 @@
     <title>Stemwijzer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="/Assets/Css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
         crossorigin="anonymous">
     <link rel="stylesheet" href="Assets/Css/main.css">
@@ -48,6 +47,11 @@
                 </div>
                 <div id="result-container" class="d-none text-center">
                     <div>
+                        <button id="show-bigparty-btn">Toon alleen zittende partijen</button>
+                        <button id="show-secularparty-btn">Toon alleen seculiere partijen</button>
+                        <button id="show-allparty-btn">Toon alle partijen</button>
+                    </div>
+                    <div>
                         <h3 id="first"></h3>
                         <h5 id="second" class="float-left"></h5>
                         <h5 id="third" class="float-right"></h5>
@@ -64,15 +68,12 @@
             </div>
         </section>
     </main>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous">
+    <script src="/Assets/Js/jquery-3.3.1.slim.min.js">
         // Alleen voor bootstrap, wordt niet gebruikt in de logica van de stemwijzer :)
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-    <script src="http://stemwijzer.dvc-icta.nl/newdata.js"></script>
+    <script src="Assets/Js/popper.min.js"></script>
+    <script src="Assets/Js/bootstrap.min.js"></script>
+    <script src="Assets/Js/data.js"></script>
     <script src="Assets/Js/main.js"></script>
 </body>
 
