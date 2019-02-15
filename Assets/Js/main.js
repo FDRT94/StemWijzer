@@ -148,7 +148,7 @@ function showPreferenceContainer() {
                 var index = preferredStatements.indexOf(this.value);
  
                 if (index > -1) {
-                    arr.splice(index, 1);
+                    preferredStatements.splice(index, 1);
                 }
             }
         }
@@ -172,10 +172,14 @@ function calculateResult() {
 
             parties[index].count++
 
-            parties[index].percentage = Math.round((parties[index].count / subjects.length) * 100)
+            if (preferredStatements.indexOf(answer.index.toString()) > -1) parties[index].count++
+
         }
     }
-
+    for (let i = 0; i < parties.length; i++) {
+        parties[i].percentage = Math.round((parties[i].count / (subjects.length + preferredStatements.length)) * 100)
+    }
+    
     parties.sort(function (a, b) {
         return b.count - a.count;
     });
