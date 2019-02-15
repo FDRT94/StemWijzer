@@ -3,3 +3,16 @@ body {
     background-size: cover;
     background-attachment: fixed;
 }
+
+button {
+    box-shadow: none !important;
+}
+
+button.btn-secondary:hover {
+    transition: 0.1s linear;
+}
+
+button.btn-secondary:hover {
+    background: #0069d9;
+    border-color: #0062cc;
+}
